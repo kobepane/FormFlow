@@ -1,7 +1,6 @@
 Flask
+pytesseract
 Pillow
 opencv-python
 pdf2image
-matplotlib
-opencv-python
 matplotlib
