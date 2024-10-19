@@ -1,5 +1,4 @@
-install:
-	venv
+install: venv
 	
 venv:
 	bash setup.sh
