@@ -6,3 +6,5 @@ opencv-python
 pdf2image
 matplotlib
 flask_cors
+doctr
+tf2onnx
