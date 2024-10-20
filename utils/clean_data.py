@@ -16,7 +16,7 @@ class Form:
         index = data.index(START_KEYWORD)
         return data[index+1:]
       
-     def clean_phone(self):
+    def clean_phone(self):
         in_word: bool = False
         saved: str = ""
 
@@ -60,11 +60,11 @@ class Form:
                     full_email = beforeAt + after  # Correctly join the beforeAt string and the after string
                     
                     self.res.append(full_email) 
-          return
+        return
 
-   def run_clean(data: list[str]) -> list[str]:
-      form_instance = Form(data)  # Create an instance of the form class
-      return form_instance.clean_email()  # Call clean_email on the instance
+    def run_clean(data: list[str]) -> list[str]:
+        form_instance = Form(data)  # Create an instance of the form class
+        return form_instance.clean_email()  # Call clean_email on the instance
 
     def clean_majors(self):
         in_word: bool = False
@@ -173,3 +173,5 @@ class Form:
 
 def clean_data(data: list[str]) -> list[str]:
     form = Form(data)
+    form.clean_email()
+    print(form.res)
