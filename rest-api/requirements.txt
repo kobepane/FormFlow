@@ -1,0 +1,13 @@
+flask
+pytesseract
+tesseract
+Pillow
+opencv-python
+pdf2image
+matplotlib
+flask_cors
+certifi
+python-doctr
+torch
+torchvision
+certifi
