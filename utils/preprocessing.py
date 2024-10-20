@@ -1,22 +1,29 @@
-from utils.preprocessing import convert_pdf_to_images, preprocess_image
+from pdf2image import convert_from_bytes
+import cv2
+import numpy as np
 from PIL import Image
-import matplotlib.pyplot as plt
 
-# Load a sample PDF or image file for testing (replace 'sample.pdf' with your file path)
-with open('/mnt/data/image.png', 'rb') as f:
-    pdf_bytes = f.read()
-
-# Convert PDF or image to list of images
-pdf_images = convert_pdf_to_images(pdf_bytes)
+# Convert PDF pages to images
+def convert_pdf_to_images(pdf_bytes):
+    images = convert_from_bytes(pdf_bytes)
+    return images  # List of PIL Image objects
 
 # Preprocess each image
-for i, img in enumerate(pdf_images):
-    preprocessed_img = preprocess_image(img)
+def preprocess_image(pil_img):
+    # Convert PIL image to OpenCV format
+    open_cv_image = np.array(pil_img.convert('RGB'))
+    open_cv_image = open_cv_image[:, :, ::-1].copy()  # Convert RGB to BGR for OpenCV
 
-    # Step 3: Save or display preprocessed image for testing
-    preprocessed_img.save(f'preprocessed_page_{i}.png')
+    # Convert to grayscale
+    gray_image = cv2.cvtColor(open_cv_image, cv2.COLOR_BGR2GRAY)
 
-    # Optionally, display the image using matplotlib
-    plt.imshow(preprocessed_img)
-    plt.title(f"Preprocessed Page {i + 1}")
-    plt.show()
+    # Apply thresholding (binarization)
+    _, binary_image = cv2.threshold(gray_image, 150, 255, cv2.THRESH_BINARY)
+
+    # Remove noise
+    noise_removed_image = cv2.medianBlur(binary_image, 3)
+
+    # Optionally resize or deskew the image here if needed
+
+    # Convert back to PIL format for text extraction
+    return Image.fromarray(noise_removed_image)
