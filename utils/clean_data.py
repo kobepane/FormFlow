@@ -1,8 +1,14 @@
 import config
 
-# get rid of anything before the start phrase (UO PALESTINE COALITION SUPPORT PETITION)
-def cut_first_chars(data: list[str]) -> list[str]:
-    return [0,0]
+class form:
+    def __init__(self, data: list[str]):
+        self.data = cut_front(data)
+    
+    def cut_front(self):
+        pass
+
+    def clean_phone(self):
+        
 
 
 
