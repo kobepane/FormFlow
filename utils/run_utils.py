@@ -6,5 +6,6 @@ from clean_data import *
 def run(FILE) -> list[str]:
     PIL_FILE = run_preprocess(FILE)
     data = run_text_extract(PIL_FILE)
-    # res = clean_data(data)
-    return data
+    print(data)
+    res = clean_data(data)
+    return res
