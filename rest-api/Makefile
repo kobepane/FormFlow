@@ -1,5 +1,5 @@
 run: 
-	export FLASK_APP=hello.py
+	export FLASK_APP=server.py
 	flask run
 
 venv:
