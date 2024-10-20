@@ -26,5 +26,4 @@ def run_text_extract(img: Image.Image) -> list[str]:
         res: list[str] = text_extract(img)
     else:
         return FileNotFoundError()
-    # return res
-    return NotImplementedError()
+    return res
