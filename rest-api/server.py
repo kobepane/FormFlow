@@ -3,8 +3,11 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", 'utils')))
 from utils.run_utils import run
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from config import CSV_HEADERS
 # from flask_cors import CORS
 import csv
+import io
 
 
 app = Flask(__name__)
@@ -12,27 +15,24 @@ app = Flask(__name__)
 
 @app.route("/upload", methods=['POST'])
 def handle_files():
-   uploaded_files = request.files
-   file_names = []
-   for key in uploaded_files:
-       file = uploaded_files[key]
-       file_names.append(file.filename)
-       files = []
-       # Add your file processing logic here
-       file_bytes = file.read()
-       # print("return value", run(file_bytes))
-       files.append(run(file_bytes))
-      
+    uploaded_files = request.files
+    buffer = io.StringIO()
+    writer = csv.writer(buffer)
+    writer.writerow(CSV_HEADERS)
+    for key in uploaded_files:
+        file = uploaded_files[key]
+        # Add your file processing logic here
+        file_bytes = file.read()
+        row = run(file_bytes)
+        print(row)
+        writer.writerow(row)
+    buffer.seek(0)
+    
+    response = make_response(buffer.getvalue())
+    response.headers["Content-Disposition"] = "attachment; filename=data.csv"
+    response.headers["Content-Type"] = "text/csv"
 
-
-
-
-   response = {
-       "message": f"Successfully received {len(file_names)} files",
-       "file-names": file_names,
-       "files": files
-   }
-   return jsonify(response), 200
+    return response
 
 
 if __name__ == '__main__':
