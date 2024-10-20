@@ -173,5 +173,5 @@ class Form:
 
 def clean_data(data: list[str]) -> list[str]:
     form = Form(data)
-    form.clean_email()
-    print(form.res)
+    form.clean_name()
+    form.clean_phone()
