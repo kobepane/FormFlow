@@ -4,12 +4,12 @@ import numpy as np
 from PIL import Image
 
 # Convert PDF pages to images
-def convert_pdf_to_images(pdf_bytes):
+def convert_pdf_to_images(pdf_bytes) -> Image.Image:
     images = convert_from_bytes(pdf_bytes)
     return images  # List of PIL Image objects
 
 # Preprocess each image
-def preprocess_image(pil_img):
+def preprocess_image(pil_img) -> Image.Image:
     # Convert PIL image to OpenCV format
     open_cv_image = np.array(pil_img.convert('RGB'))
     open_cv_image = open_cv_image[:, :, ::-1].copy()  # Convert RGB to BGR for OpenCV
@@ -27,3 +27,8 @@ def preprocess_image(pil_img):
 
     # Convert back to PIL format for text extraction
     return Image.fromarray(noise_removed_image)
+
+def run_preprocess(FILE):
+    img: Image.Image = convert_pdf_to_images(FILE)
+    pil_file = preprocess_image(img)
+    return pil_file
