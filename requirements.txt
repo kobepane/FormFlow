@@ -1,5 +1,6 @@
 Flask
 pytesseract
+tesseract
 Pillow
 opencv-python
 pdf2image
