@@ -175,3 +175,9 @@ def clean_data(data: list[str]) -> list[str]:
     form = Form(data)
     form.clean_name()
     form.clean_phone()
+    form.clean_majors()
+    form.clean_email()
+    form.clean_year()
+    form.clean_date()
+    form.clean_org_name()
+    return form.res
