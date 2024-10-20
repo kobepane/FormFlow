@@ -16,7 +16,8 @@ def handle_files():
         file = uploaded_files[key]
         file_names.append(file.filename)
         # Add your file processing logic here
-        print(file)
+        file_bytes = file.read()
+        print("return value", run(file_bytes))
 
     response = {
         "message": f"Successfully received {len(file_names)} files",

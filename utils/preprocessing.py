@@ -11,7 +11,8 @@ def convert_pdf_to_images(pdf_bytes) -> Image.Image:
 # Preprocess each image
 def preprocess_image(pil_img) -> Image.Image:
     # Convert PIL image to OpenCV format
-    open_cv_image = np.array(pil_img.convert('RGB'))
+    # CHANGING!
+    open_cv_image = np.array(pil_img[0].convert('RGB'))
     open_cv_image = open_cv_image[:, :, ::-1].copy()  # Convert RGB to BGR for OpenCV
 
     # Convert to grayscale
