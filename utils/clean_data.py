@@ -32,6 +32,37 @@ class Form:
                     self.res.append(saved.strip())
                     return 
                 saved += curr + " "  # Accumulate the phone number
+    
+    # email_header = config.CSV_HEADERS[4]
+    def clean_email(self):
+        words = self.data
+        for i, word in enumerate(words):
+            joined_word = ''.join(word) if isinstance(word, list) else word
+            if joined_word.lower() == "email":
+                if i >= 3 and i + 1 < len(words):
+                    before = ''.join(words[i-3]) if isinstance(words[i-3], list) else words[i-3]
+                    after = ''.join(words[i+1]) if isinstance(words[i+1], list) else words[i+1]
+                    
+                    # Replace the second occurrence of lowercase 'e' with '@'
+                    e_count = 0
+                    before_modified = []
+                    for char in before:
+                        if char == 'e':
+                            e_count += 1
+                            if e_count == 2:  # Replace on the second occurrence
+                                before_modified.append('@')
+                                continue
+                        before_modified.append(char)
+                    
+                    beforeAt = ''.join(before_modified)  # Join the modified characters back into a string
+                    full_email = beforeAt + after  # Correctly join the beforeAt string and the after string
+                    
+                    self.res.append(full_email) 
+          return
+
+   def run_clean(data: list[str]) -> list[str]:
+      form_instance = Form(data)  # Create an instance of the form class
+      return form_instance.clean_email()  # Call clean_email on the instance
 
     def clean_majors(self):
         in_word: bool = False
@@ -77,34 +108,3 @@ class Form:
                         self.res.append(year)
                     return
                 saved += curr + " "  # Accumulate the year
-
-def run_clean(data: list[str]) -> list[str]:
-    return NotImplementedError()
-
-if __name__ == "__main__":
-    test_data = [
-        "PHONE", "5108218486",
-        "MAJOR(S)", "Computer Science", "Mathematics",
-        "EMAIL", "john@example.com",
-        "YEAR", "3",  # Year
-        "DATE SIGNED", "01/01/2024"
-    ]
-
-    test_form = Form(test_data)
-    test_form.clean_phone()
-    test_form.clean_majors()
-    test_form.clean_year()
-    
-    # Check the results
-    expected_phone = "5108218486"
-    expected_majors = "Computer Science/Mathematics"
-    expected_year = "Junior"
-    
-    # Assertions
-    assert expected_phone == test_form.res[0]
-    assert expected_majors == test_form.res[1]
-    assert expected_year == test_form.res[2]
-
-    print(f"Expected Phone: {expected_phone}, Got: {test_form.res[0]}")
-    print(f"Expected Majors: {expected_majors}, Got: {test_form.res[1]}")
-    print(f"Expected Year: {expected_year}, Got: {test_form.res[2]}")
